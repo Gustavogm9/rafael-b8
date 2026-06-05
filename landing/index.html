@@ -709,13 +709,28 @@ footer { padding: 64px 32px 32px; background: var(--black); border-top: 1px soli
 
         <div class="form-field">
           <label for="perfil">Perfil</label>
-          <select id="perfil" name="perfil" required>
+          <select id="perfil" name="perfil" required onchange="togglePerfilField(this.value)">
             <option value="">Selecione</option>
-            <option>Médico / Saúde</option>
-            <option>Arquiteto / Engenheiro</option>
-            <option>Locação / Aluguel</option>
-            <option>Prestador de Serviço</option>
-            <option>Empresa diversa</option>
+            <option value="medico">Médico / Saúde</option>
+            <option value="arquiteto">Arquiteto / Engenheiro</option>
+            <option value="locacao">Locação / Aluguel</option>
+            <option value="prestador">Prestador de Serviço</option>
+            <option value="empresa">Empresa diversa</option>
+          </select>
+        </div>
+
+        <div class="form-field" id="field-credenciada" style="display:none;">
+          <label for="credenciada">Empresa credenciada (convênio principal)</label>
+          <select id="credenciada" name="credenciada">
+            <option value="">Selecione a credenciada</option>
+            <option>Unimed</option>
+            <option>HB · Hospital de Base</option>
+            <option>Famerp</option>
+            <option>Hapvida / NotreDame</option>
+            <option>Bradesco Saúde</option>
+            <option>SulAmérica</option>
+            <option>Amil</option>
+            <option>Outras (especificar)</option>
           </select>
         </div>
 
@@ -872,6 +887,18 @@ function submitForm(e) {
   document.getElementById('vero-form').style.display = 'none';
   document.getElementById('form-success').classList.add('shown');
   return false;
+}
+
+// Mostra campo "Empresa credenciada" apenas pra Médico
+function togglePerfilField(value) {
+  const credenciada = document.getElementById('field-credenciada');
+  if (value === 'medico') {
+    credenciada.style.display = 'block';
+    credenciada.querySelector('select').setAttribute('required', 'required');
+  } else {
+    credenciada.style.display = 'none';
+    credenciada.querySelector('select').removeAttribute('required');
+  }
 }
 
 // WhatsApp input mask
